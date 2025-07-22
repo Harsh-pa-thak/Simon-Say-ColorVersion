@@ -72,6 +72,6 @@ This project is licensed under the MIT License.
 
 ## Credits
 
-Created by [Harsh-pa-thak](https://github.com/Harsh-pa-thak)
+Created by [Harsh Pathak](https://github.com/Harsh-pa-thak)
 
 Special thanks to all contributors and the classic Simon Says game for inspiration.
