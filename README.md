@@ -1,4 +1,4 @@
-# Simon Say Color Version
+# <a href ="https://harsh-pa-thak.github.io/Simon-Say-ColorVersion/">Simon Say Color Version</a> 
 
 ## Overview
 
@@ -14,12 +14,12 @@
 - Game over and restart functionality
 
 ## How to Play
-
-1. Click "Start" to begin the game.
-2. Watch and listen as a sequence of colors plays.
-3. Repeat the sequence by clicking the colored buttons in the correct order.
-4. Each round adds a new color to the sequence, making it more difficult.
-5. The game ends when you make a mistake. Try again to beat your high score!
+1. Click on the link to open the game. 
+2. Click "Start" to begin the game.
+3. Watch as a sequence of colors plays.
+4. Repeat the sequence by clicking the colored buttons in the correct order.
+5. Each round adds a new color to the sequence, making it more difficult.
+6. The game ends when you make a mistake. Try again to beat your high score!
 
 ## Installation
 
@@ -52,7 +52,7 @@ Simon-Say-ColorVersion/
 
 ## Customization
 
-- Change button colors, sounds, or visuals in `style.css` and `assets/`
+- Change button colors or visuals in `style.css` and `assets/`
 - Modify game logic in `script.js` for new features or difficulty settings
 
 ## Contributing
