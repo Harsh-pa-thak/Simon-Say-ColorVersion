@@ -7,11 +7,13 @@
   "use strict";
 
   const COLORS = [
-    { id: "red", name: "red", freq: 329.63, spill: "rgba(255, 94, 70, 0.17)" },
-    { id: "yellow", name: "yellow", freq: 415.3, spill: "rgba(255, 191, 60, 0.15)" },
-    { id: "blue", name: "blue", freq: 493.88, spill: "rgba(84, 156, 255, 0.16)" },
-    { id: "green", name: "green", freq: 659.25, spill: "rgba(63, 224, 143, 0.14)" },
+    { id: "red", name: "red", freq: 329.63 },
+    { id: "yellow", name: "yellow", freq: 415.3 },
+    { id: "blue", name: "blue", freq: 493.88 },
+    { id: "green", name: "green", freq: 659.25 },
   ];
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const COLOR_BY_ID = new Map(COLORS.map((c) => [c.id, c]));
   const BEST_KEY = "simonHighScore";
@@ -39,8 +41,6 @@
     status: document.getElementById("status"),
     start: document.getElementById("startBtn"),
     sound: document.getElementById("soundToggle"),
-    soundText: document.querySelector(".toggle__text"),
-    spill: document.querySelector(".room__spill"),
   };
 
   const padEls = new Map(
@@ -196,16 +196,6 @@
 
   const glowTimers = new Map();
 
-  function ambient(colorId) {
-    const color = colorId ? COLOR_BY_ID.get(colorId) : null;
-    if (color) {
-      els.spill.style.background = `radial-gradient(circle, ${color.spill} 0%, transparent 62%)`;
-      els.spill.style.opacity = "1";
-      return;
-    }
-    els.spill.style.opacity = "0";
-  }
-
   function flash(id, options = {}) {
     const el = padEls.get(id);
     if (!el) return;
@@ -217,14 +207,12 @@
     el.classList.remove("is-lit", "is-ghost");
     el.classList.add(ghost ? "is-ghost" : "is-lit");
 
-    if (!ghost) ambient(id);
     if (sound) tone(color.freq, duration);
 
     glowTimers.set(
       id,
       setTimeout(() => {
         el.classList.remove("is-lit", "is-ghost");
-        if (!document.querySelector(".pad.is-lit")) ambient(null);
         glowTimers.delete(id);
       }, duration)
     );
@@ -285,6 +273,7 @@
 
   function startAttract() {
     stopAttract();
+    if (reduceMotion.matches) return;
     attractTimer = window.setInterval(() => {
       if (state.phase !== "idle" || document.hidden) return;
       const color = COLORS[Math.floor(Math.random() * COLORS.length)];
@@ -440,8 +429,7 @@
   els.sound.addEventListener("click", () => {
     state.sound = !state.sound;
     saveSound(state.sound);
-    els.sound.setAttribute("aria-pressed", String(state.sound));
-    els.soundText.textContent = state.sound ? "sound on" : "sound off";
+    els.sound.setAttribute("aria-checked", String(state.sound));
     if (state.sound) tone(523.25, 130, { gain: 0.07 });
   });
 
@@ -474,8 +462,7 @@
   render();
   setPhase("idle");
   startAttract();
-  els.sound.setAttribute("aria-pressed", String(state.sound));
-  els.soundText.textContent = state.sound ? "sound on" : "sound off";
+  els.sound.setAttribute("aria-checked", String(state.sound));
 
   // inspection hook for automated checks (?debug)
   if (new URLSearchParams(window.location.search).has("debug")) {

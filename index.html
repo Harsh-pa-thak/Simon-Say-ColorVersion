@@ -5,76 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simon — say it back</title>
     <meta name="description" content="A memory game in four colours. Watch the order, then repeat it." />
-    <meta name="theme-color" content="#070A0B" />
+    <meta name="theme-color" content="#141814" />
     <link rel="icon" href="icon.png" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="room" aria-hidden="true">
-      <span class="room__lamp"></span>
-      <span class="room__spill"></span>
-      <span class="room__grain"></span>
-      <span class="room__vignette"></span>
+    <a class="skip-link" href="#console">Skip to the game</a>
+
+    <div class="scene" aria-hidden="true">
+      <span class="scene__light"></span>
+      <span class="scene__floor"></span>
+      <span class="scene__grain"></span>
+      <span class="scene__vignette"></span>
     </div>
 
     <main class="stage">
       <header class="masthead">
-        <h1 class="wordmark">Simon</h1>
-        <p class="tagline">Say it back.</p>
+        <div class="lockup">
+          <h1 class="wordmark">Simon</h1>
+          <p class="tagline">Say it back.</p>
+        </div>
+
+        <div class="intro">
+          <p class="intro__copy">
+            Four pads light up in order. Repeat what you saw&nbsp;— each round adds one more.
+          </p>
+          <p class="intro__hint">Keys 1–4 play. Space starts.</p>
+        </div>
       </header>
 
-      <section class="console" id="console" data-phase="idle" aria-label="Simon memory game">
-        <div class="console__plate">
-          <p class="plate__name">memory trainer</p>
-          <button class="toggle" id="soundToggle" type="button" aria-pressed="true">
-            <span class="toggle__led" aria-hidden="true"></span>
-            <span class="toggle__text">sound on</span>
-          </button>
+      <section class="console" id="console" tabindex="-1" data-phase="idle" aria-label="Simon memory game">
+        <span class="console__grain" aria-hidden="true"></span>
+
+        <div class="console__strip">
+          <p class="console__designation">memory trainer</p>
+
+          <div class="switch">
+            <span class="switch__label" id="soundLabel">sound</span>
+            <button
+              class="switch__control"
+              id="soundToggle"
+              type="button"
+              role="switch"
+              aria-checked="true"
+              aria-labelledby="soundLabel"
+            >
+              <span class="switch__knob" aria-hidden="true"></span>
+            </button>
+          </div>
         </div>
 
         <div class="screen">
-          <div class="screen__readout">
-            <span class="screen__label">level</span>
+          <div class="readout-group">
+            <span class="readout-label">level</span>
             <div class="readout" id="levelReadout" aria-hidden="true"></div>
           </div>
 
           <div class="pips" id="pips" aria-hidden="true"></div>
 
-          <div class="screen__readout screen__readout--right">
-            <span class="screen__label">best</span>
+          <div class="readout-group readout-group--end">
+            <span class="readout-label">best</span>
             <div class="readout readout--small" id="bestReadout" aria-hidden="true"></div>
           </div>
         </div>
 
-        <div class="pads" role="group" aria-label="Colour pads">
-          <button class="pad pad--red" data-color="red" type="button" aria-label="Red pad, key 1">
-            <span class="pad__gloss" aria-hidden="true"></span>
-          </button>
-          <button class="pad pad--yellow" data-color="yellow" type="button" aria-label="Yellow pad, key 2">
-            <span class="pad__gloss" aria-hidden="true"></span>
-          </button>
-          <button class="pad pad--blue" data-color="blue" type="button" aria-label="Blue pad, key 3">
-            <span class="pad__gloss" aria-hidden="true"></span>
-          </button>
-          <button class="pad pad--green" data-color="green" type="button" aria-label="Green pad, key 4">
-            <span class="pad__gloss" aria-hidden="true"></span>
-          </button>
+        <div class="well">
+          <div class="pads" role="group" aria-label="Colour pads">
+            <button class="pad pad--red" data-color="red" type="button" aria-label="Red pad, key 1">
+              <span class="pad__gloss" aria-hidden="true"></span>
+            </button>
+            <button class="pad pad--yellow" data-color="yellow" type="button" aria-label="Yellow pad, key 2">
+              <span class="pad__gloss" aria-hidden="true"></span>
+            </button>
+            <button class="pad pad--blue" data-color="blue" type="button" aria-label="Blue pad, key 3">
+              <span class="pad__gloss" aria-hidden="true"></span>
+            </button>
+            <button class="pad pad--green" data-color="green" type="button" aria-label="Green pad, key 4">
+              <span class="pad__gloss" aria-hidden="true"></span>
+            </button>
 
-          <button class="hub" id="startBtn" type="button" aria-label="Start game">start</button>
+            <button class="hub" id="startBtn" type="button" aria-label="Start game">start</button>
+          </div>
         </div>
 
-        <p class="status" id="status" role="status">Press start. Watch the order, then repeat it.</p>
+        <p class="status" id="status" role="status">Press start, then repeat the order.</p>
       </section>
-
-      <footer class="legend">
-        <p>Use keys 1–4, or press space to start.</p>
-      </footer>
     </main>
 
     <script src="app.js"></script>
