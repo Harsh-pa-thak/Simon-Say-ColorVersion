@@ -3,24 +3,80 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simon-Say</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Simon — say it back</title>
+    <meta name="description" content="A memory game in four colours. Watch the order, then repeat it." />
+    <meta name="theme-color" content="#070A0B" />
     <link rel="icon" href="icon.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Simon-Say</h1>
-    <h2>Press on any box to start the game</h2>
-    <div class="container">
-      <div class="box1">
-        <div class="box red" type="b"></div>
-        <div class="box yellow" type="button"></div>
-      </div>
-
-      <div class="box2">
-        <div class="box blue" type="button"></div>
-        <div class="box green" type="button"></div>
-      </div>
+    <div class="room" aria-hidden="true">
+      <span class="room__lamp"></span>
+      <span class="room__spill"></span>
+      <span class="room__grain"></span>
+      <span class="room__vignette"></span>
     </div>
+
+    <main class="stage">
+      <header class="masthead">
+        <h1 class="wordmark">Simon</h1>
+        <p class="tagline">Say it back.</p>
+      </header>
+
+      <section class="console" id="console" data-phase="idle" aria-label="Simon memory game">
+        <div class="console__plate">
+          <p class="plate__name">memory trainer</p>
+          <button class="toggle" id="soundToggle" type="button" aria-pressed="true">
+            <span class="toggle__led" aria-hidden="true"></span>
+            <span class="toggle__text">sound on</span>
+          </button>
+        </div>
+
+        <div class="screen">
+          <div class="screen__readout">
+            <span class="screen__label">level</span>
+            <div class="readout" id="levelReadout" aria-hidden="true"></div>
+          </div>
+
+          <div class="pips" id="pips" aria-hidden="true"></div>
+
+          <div class="screen__readout screen__readout--right">
+            <span class="screen__label">best</span>
+            <div class="readout readout--small" id="bestReadout" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="pads" role="group" aria-label="Colour pads">
+          <button class="pad pad--red" data-color="red" type="button" aria-label="Red pad, key 1">
+            <span class="pad__gloss" aria-hidden="true"></span>
+          </button>
+          <button class="pad pad--yellow" data-color="yellow" type="button" aria-label="Yellow pad, key 2">
+            <span class="pad__gloss" aria-hidden="true"></span>
+          </button>
+          <button class="pad pad--blue" data-color="blue" type="button" aria-label="Blue pad, key 3">
+            <span class="pad__gloss" aria-hidden="true"></span>
+          </button>
+          <button class="pad pad--green" data-color="green" type="button" aria-label="Green pad, key 4">
+            <span class="pad__gloss" aria-hidden="true"></span>
+          </button>
+
+          <button class="hub" id="startBtn" type="button" aria-label="Start game">start</button>
+        </div>
+
+        <p class="status" id="status" role="status">Press start. Watch the four pads, then repeat the order.</p>
+      </section>
+
+      <footer class="legend">
+        <p>Use keys 1–4, or press space to start.</p>
+      </footer>
+    </main>
+
     <script src="app.js"></script>
   </body>
 </html>
