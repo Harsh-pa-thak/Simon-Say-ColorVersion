@@ -258,6 +258,7 @@ button {
   box-shadow:
     inset 0 2px 12px rgba(0, 0, 0, 0.92),
     inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+    0 0 0 1px rgba(195, 154, 78, 0.2),
     0 1px 0 rgba(255, 255, 255, 0.07);
 }
 
@@ -400,7 +401,7 @@ button {
     0 0 16px rgba(255, 140, 40, 0.28);
 }
 
-/* progress pips */
+/* progress meter: one tick per pad in this round */
 .pips {
   position: relative;
   z-index: 1;
@@ -408,23 +409,17 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  min-height: 8px;
+  gap: 4px;
+  min-height: 12px;
   min-width: 0;
 }
 
-.pips.is-empty::after {
-  content: "";
-  width: 74%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 179, 71, 0.16), transparent);
-}
-
 .pip {
-  width: 5px;
-  height: 5px;
+  width: 3px;
+  height: 11px;
   border-radius: 1px;
-  background: rgba(255, 179, 71, 0.15);
+  background: rgba(255, 179, 71, 0.16);
+  box-shadow: inset 0 0 0 0.5px rgba(255, 179, 71, 0.1);
   transition:
     background-color 0.14s linear,
     box-shadow 0.14s linear;
@@ -432,7 +427,7 @@ button {
 
 .pip.is-hit {
   background: var(--led);
-  box-shadow: 0 0 7px rgba(255, 179, 71, 0.85);
+  box-shadow: 0 0 8px rgba(255, 179, 71, 0.8);
 }
 
 /* ---------- The four lenses -------------------------------------------- */
@@ -459,13 +454,15 @@ button {
   cursor: pointer;
   isolation: isolate;
   background:
-    radial-gradient(118% 100% at 28% 16%, var(--pad-hi) 0%, var(--pad-base) 56%, var(--pad-deep) 100%);
-  filter: brightness(0.9) saturate(0.95);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 28%, rgba(0, 0, 0, 0.24) 100%),
+    radial-gradient(118% 100% at 28% 16%, var(--pad-hi) 0%, var(--pad-base) 52%, var(--pad-deep) 100%);
+  filter: brightness(0.86) saturate(0.94);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -12px 26px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.4),
-    0 10px 20px -9px rgba(0, 0, 0, 0.95);
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -14px 28px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.42),
+    inset -2px -2px 8px rgba(0, 0, 0, 0.22),
+    0 12px 22px -10px rgba(0, 0, 0, 0.95);
   transition:
     filter 0.14s var(--ease),
     box-shadow 0.16s var(--ease),
@@ -521,18 +518,20 @@ button {
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: radial-gradient(
-    58% 42% at 30% 16%,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.1) 40%,
-    transparent 66%
-  );
-  opacity: 0.6;
+  background:
+    radial-gradient(
+      24% 15% at 29% 11%,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.2) 46%,
+      transparent 72%
+    ),
+    radial-gradient(74% 56% at 34% 20%, rgba(255, 255, 255, 0.22) 0%, transparent 68%);
+  opacity: 0.72;
   transition: opacity 0.18s var(--ease);
 }
 
 .pad:hover {
-  filter: brightness(1) saturate(1.02);
+  filter: brightness(0.98) saturate(1.02);
 }
 
 .pad:active {
@@ -540,17 +539,17 @@ button {
 }
 
 .pad.is-lit {
-  filter: brightness(1.6) saturate(1.12);
+  filter: brightness(1.72) saturate(1.14);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 0 28px rgba(255, 255, 255, 0.42),
-    0 0 22px 2px var(--glow),
-    0 0 66px 8px var(--glow),
-    0 10px 20px -9px rgba(0, 0, 0, 0.95);
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 0 30px rgba(255, 255, 255, 0.45),
+    0 0 24px 2px var(--glow),
+    0 0 74px 10px var(--glow),
+    0 12px 22px -10px rgba(0, 0, 0, 0.95);
 }
 
 .pad.is-lit .pad__gloss {
-  opacity: 0.95;
+  opacity: 1;
 }
 
 /* faint attract-mode pulse */
@@ -568,13 +567,8 @@ button {
 }
 
 /* input is closed while the machine plays back */
-.console[data-phase="showing"] .pad,
-.console[data-phase="idle"] .pad {
-  cursor: pointer;
-}
-
 .console[data-phase="showing"] .pad:hover {
-  filter: brightness(0.9) saturate(0.95);
+  filter: brightness(0.86) saturate(0.94);
 }
 
 /* ---------- Brass start hub -------------------------------------------- */
@@ -637,7 +631,7 @@ button {
 /* ---------- Status line ------------------------------------------------ */
 
 .status {
-  max-width: 36ch;
+  max-width: 34ch;
   min-height: 2.7em;
   margin: clamp(13px, 2.6vw, 18px) auto 0.5em;
   display: grid;
@@ -707,6 +701,29 @@ button {
   100% {
     opacity: 1;
   }
+}
+
+@keyframes ledTick {
+  0%,
+  22% {
+    opacity: 0.35;
+  }
+  23%,
+  46% {
+    opacity: 1;
+  }
+  47%,
+  62% {
+    opacity: 0.55;
+  }
+  63%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.readout.is-ticking {
+  animation: ledTick 0.26s steps(1, end);
 }
 
 @keyframes shake {

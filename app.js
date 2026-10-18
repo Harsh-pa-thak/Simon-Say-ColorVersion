@@ -15,6 +15,7 @@
 
   const COLOR_BY_ID = new Map(COLORS.map((c) => [c.id, c]));
   const BEST_KEY = "simonHighScore";
+  const SOUND_KEY = "simonSound";
 
   const SEGMENTS = {
     0: "abcdef",
@@ -51,7 +52,7 @@
     step: 0,
     level: 0,
     phase: "idle", // idle | showing | input | between | over
-    sound: true,
+    sound: readSound(),
     best: readBest(),
     run: 0,
     timers: new Set(),
@@ -89,6 +90,22 @@
   function saveBest(value) {
     try {
       localStorage.setItem(BEST_KEY, String(value));
+    } catch {
+      /* storage can be unavailable in private or embedded contexts */
+    }
+  }
+
+  function readSound() {
+    try {
+      return localStorage.getItem(SOUND_KEY) !== "off";
+    } catch {
+      return true;
+    }
+  }
+
+  function saveSound(on) {
+    try {
+      localStorage.setItem(SOUND_KEY, on ? "on" : "off");
     } catch {
       /* storage can be unavailable in private or embedded contexts */
     }
@@ -295,6 +312,11 @@
     setStatus("Watch the order.");
     els.console.classList.remove("is-shaking");
 
+    // wipe any pad still glowing from the previous round
+    glowTimers.forEach((id) => clearTimeout(id));
+    glowTimers.clear();
+    padEls.forEach((el) => el.classList.remove("is-lit", "is-ghost"));
+
     // one coordinated power-up sweep, silent
     COLORS.forEach((color, i) => {
       after(() => flash(color.id, { sound: false, duration: 150 }), i * 75);
@@ -303,7 +325,7 @@
     const run = state.run;
     after(() => {
       if (run === state.run) nextRound();
-    }, 700);
+    }, 640);
   }
 
   async function nextRound() {
@@ -312,6 +334,9 @@
     state.step = 0;
     state.seq.push(COLORS[Math.floor(Math.random() * COLORS.length)].id);
     render();
+    els.level.classList.remove("is-ticking");
+    void els.level.offsetWidth;
+    els.level.classList.add("is-ticking");
     await playSequence(run);
   }
 
@@ -320,10 +345,10 @@
     setStatus("Watch the order.");
     drawPips();
 
-    await wait(Math.max(380, 640 - state.level * 20));
+    await wait(Math.max(300, 520 - state.level * 16));
     if (run !== state.run) return;
 
-    const gap = Math.max(220, 560 - state.level * 26);
+    const gap = Math.max(210, 500 - state.level * 24);
     const lit = Math.max(120, Math.round(gap * 0.62));
 
     for (const id of state.seq) {
@@ -414,6 +439,7 @@
 
   els.sound.addEventListener("click", () => {
     state.sound = !state.sound;
+    saveSound(state.sound);
     els.sound.setAttribute("aria-pressed", String(state.sound));
     els.soundText.textContent = state.sound ? "sound on" : "sound off";
     if (state.sound) tone(523.25, 130, { gain: 0.07 });
@@ -448,4 +474,11 @@
   render();
   setPhase("idle");
   startAttract();
+  els.sound.setAttribute("aria-pressed", String(state.sound));
+  els.soundText.textContent = state.sound ? "sound on" : "sound off";
+
+  // inspection hook for automated checks (?debug)
+  if (new URLSearchParams(window.location.search).has("debug")) {
+    window.__simon = { state, COLORS };
+  }
 })();
