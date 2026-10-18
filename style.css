@@ -94,7 +94,9 @@ button {
 .scene__light {
   position: absolute;
   inset: 0;
-  background: radial-gradient(54% 44% at 26% 8%, rgba(255, 241, 212, 0.13), transparent 66%);
+  background:
+    radial-gradient(48% 40% at 24% 6%, rgba(255, 241, 212, 0.13), transparent 68%),
+    radial-gradient(44% 40% at 72% 40%, rgba(255, 238, 205, 0.055), transparent 72%);
 }
 
 .scene__floor {
@@ -158,10 +160,10 @@ button {
 
 .tagline {
   margin: clamp(12px, 1.8vw, 18px) 0 0;
-  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
   font-weight: 500;
-  letter-spacing: 0.005em;
-  color: rgba(243, 235, 219, 0.64);
+  letter-spacing: 0.01em;
+  color: rgba(243, 235, 219, 0.66);
 }
 
 .intro {
@@ -191,7 +193,7 @@ button {
   width: 100%;
   max-width: var(--device);
   justify-self: end;
-  padding: clamp(13px, 1.7vw, 18px) clamp(13px, 1.7vw, 18px) clamp(10px, 1.3vw, 14px);
+  padding: clamp(13px, 1.7vw, 18px) clamp(13px, 1.7vw, 18px) clamp(14px, 1.8vw, 19px);
   border-radius: clamp(24px, 2.8vw, 30px);
   background: linear-gradient(178deg, #f6eedf 0%, #ede4d2 30%, #e4d9c4 74%, #d5c7ae 100%);
   box-shadow:
@@ -696,10 +698,12 @@ button {
   position: relative;
   z-index: 1;
   max-width: 46ch;
-  min-height: 2.8em;
+  min-height: 2.9em;
   margin: clamp(10px, 1.6vw, 14px) 2px 0;
   padding-top: clamp(9px, 1.2vw, 12px);
   border-top: 1px solid rgba(90, 78, 56, 0.16);
+  display: flex;
+  align-items: center;
   text-align: left;
   font-size: clamp(0.8rem, 1.25vw, 0.88rem);
   line-height: 1.42;
